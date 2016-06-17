@@ -1,5 +1,6 @@
 package de.lendico;
 
+import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.Locale;
@@ -37,5 +38,19 @@ public class IbanFactoryTest {
         };
     }
     
+    @Test(dataProvider = "countryVsLength")
+    public void shouldHaveSpecificLengthByCountry(Locale country, int length) {
+        
+        assertEquals(ibanFactory.generate(country).length(), length);
+    }
+    
+    @DataProvider(name = "countryVsLength")
+    public Object[][] provideCountryVsLength() throws Exception {
+        return new Object[][] {
+                { GERMANY, 22 },
+                { AUSTRIA, 20 },
+                { NETHERLANDS, 18 }
+        };
+    }    
 
 }
