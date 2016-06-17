@@ -2,7 +2,7 @@
 
 import java.util.Arrays;
 
-import de.lendico.IbanFactory;
+import de.lendico.iban.IbanFactory;
 
 /**
  * Hello world!
@@ -14,7 +14,7 @@ public class App {
 
         IbanFactory ibanFactory = new IbanFactory();
         
-        Arrays.asList(ibanFactory.factory("BR"), ibanFactory.factory("DE"))
+        Arrays.asList(ibanFactory.factory("BA"), ibanFactory.factory("DE"), ibanFactory.factory("NL"))
             .stream()
             .forEach(l -> System.out.println(l));
 
