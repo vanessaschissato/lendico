@@ -10,7 +10,9 @@ public class BbanStrategyFactory {
     private static Map<String, BbanStrategy> bbanStrategies; // Flywweight??
     
     static {
+
         bbanStrategies = new HashMap<String, BbanStrategy>();
+
         bbanStrategies.put("AT", new StandardBbanStrategy("nnnnnnnnnnnnnnnn"));
         bbanStrategies.put("BA", new MySpecialCountryBbanStrategy());
         bbanStrategies.put("DE", new StandardBbanStrategy("nnnnnnnnnnnnnnnnnn"));

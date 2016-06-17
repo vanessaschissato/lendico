@@ -10,8 +10,8 @@ public class IbanFactory {
     /**
      * Factories from a String.
      * 
-     * @param countryCode
-     * @return string
+     * @param Locale
+     * @return String
      */
     public String factory(Locale locale) {
 
@@ -21,8 +21,8 @@ public class IbanFactory {
     /**
      * Factories from a Locale.
      * 
-     * @param locale
-     * @return string
+     * @param String ISO 3166-1 alpha-2 (country code)
+     * @return String IBAN
      */
     public String factory(String countryCode) {
 
