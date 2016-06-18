@@ -1,6 +1,5 @@
 package de.lendico.iban;
 
-import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.Locale;
@@ -8,6 +7,8 @@ import java.util.Locale;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import de.lendico.iban.strategy.IbanStrategy;
 
 
 public class IbanFactoryTest {
@@ -41,6 +42,23 @@ public class IbanFactoryTest {
         };
     }
     
+    @Test(dataProvider = "supportedCountries")
+    public void shouldFactoryIbansWithValidCheckDigits(String country) {
+        
+        String iban = ibanFactory.generate(country);
+        
+        assertTrue(IbanStrategy.isValid(iban));
+    }
+    
+    @DataProvider(name = "supportedCountries")
+    public Object[][] provideSupportedCountries() throws Exception {
+        return new Object[][] {
+                { "AT" },
+                { "DE" },
+                { "NL" },
+        };
+    }
+    
     @Test
     public void shouldFactoryFromLocale() {
         
@@ -65,52 +83,6 @@ public class IbanFactoryTest {
                 { new Locale("") },
                 { Locale.TAIWAN },
                 { Locale.TAIWAN.getCountry() },
-        };
-    }
-    
-    @Test(dataProvider = "validIbans")
-    public void shouldValidateRightIbans(String iban) {
-        assertTrue(ibanFactory.isValid(iban));
-    }
-    
-    @DataProvider(name = "validIbans")
-    public Object[][] provideValidIbans() throws Exception {
-        return new Object[][] {
-                { "DE44500105175407324931" },
-                { "GR1601101250000000012300695" },
-                { "GB29NWBK60161331926819" },
-                { "BA391290079401028494" }
-        };
-    }
-    
-    @Test(dataProvider = "invalidIbans")
-    public void shouldNotValidateWrongIbans(String iban) {
-        assertFalse(ibanFactory.isValid(iban));
-    }
-    
-    @DataProvider(name = "invalidIbans")
-    public Object[][] provideInvalidIbans() throws Exception {
-        return new Object[][] {
-                { "DE44500105175407324930" },
-                { "001601101250000000012300695" },
-                { "GB29NWBK6016131926819" },
-        };
-    }
-
-    @Test(dataProvider = "supportedCountries")
-    public void shouldFactoryIbansWithValidCheckDigits(String country) {
-        
-        String iban = ibanFactory.generate(country);
-        
-        assertTrue(ibanFactory.isValid(iban));
-    }
-    
-    @DataProvider(name = "supportedCountries")
-    public Object[][] provideSupportedCountries() throws Exception {
-        return new Object[][] {
-                { "AT" },
-                { "DE" },
-                { "NL" },
         };
     }
 
