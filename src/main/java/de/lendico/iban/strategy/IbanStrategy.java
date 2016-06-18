@@ -1,11 +1,15 @@
 package de.lendico.iban.strategy;
 
 import java.math.BigInteger;
+import java.util.HashSet;
 
 import de.lendico.bban.strategy.BbanStrategy;
 
 public abstract class IbanStrategy {
 
+    // Used HashSet because contains(el) is O(1), unlike ArrayList that is O(N)
+    private HashSet<String> generatedIbans = new HashSet<String>();
+    
     private static BigInteger IBAN_MOD = new BigInteger("97");
     
     private String countryCode;
@@ -36,9 +40,20 @@ public abstract class IbanStrategy {
                             .append(bban) // BBAN (Basic Bank Account Number)
                             .toString();
         
-        return iban;
+
+        return (checkUniqueness(iban)) ? iban : generate();   
     }
 
+    private synchronized boolean checkUniqueness(String iban) {
+                
+        if (generatedIbans.contains(iban)) { 
+            return false; // Try it again
+        } else {
+            generatedIbans.add(iban);
+            return true;
+        }
+    }    
+    
     /**
      * Standard check digits calculation.
      * 
